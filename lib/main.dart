@@ -92,104 +92,107 @@ class _googleplaceState extends State<googleplace> {
   Widget build(BuildContext context) {
    // String hinttxt = widget.hint;
     return Scaffold(
-      body: Container(
-        color: Colors.white,
-        child: Column(
-          children: <Widget>[
-            TextFormField(
-              controller: searchCtrl,
-             // style: Styles.regular12black,
-              validator: (val) => validate!(val/*, hinttxt*/),
-              decoration: InputDecoration(
-              //  labelText: hinttxt,
-               // labelStyle: Styles.regular12lgrey2,
-                contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 0.0, 0.0),
-                fillColor: Colors.transparent,
-                focusedBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(2)),
-                  borderSide:
-                  BorderSide(width: 0.5, color: Color(0xffBCBCBC).withOpacity(0.5)),),
-                disabledBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(2)),
-                  borderSide:
-                  BorderSide(width: 0.5, color: Color(0xffBCBCBC).withOpacity(0.5)),
-                ),
-                enabledBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(2)),
-                  borderSide:
-                  BorderSide(width: 0.5, color: Color(0xffBCBCBC).withOpacity(0.5)),
-                ),
-                border: OutlineInputBorder(
+      body: SafeArea(
+        child: Container(
+          color: Colors.white,
+          child: Column(
+            children: <Widget>[
+              RichText(text: const TextSpan( text: 'Search Place ',)),
+              TextFormField(
+                controller: searchCtrl,
+               // style: Styles.regular12black,
+                validator: (val) => validate!(val/*, hinttxt*/),
+                decoration: InputDecoration(
+                //  labelText: hinttxt,
+                 // labelStyle: Styles.regular12lgrey2,
+                  contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 0.0, 0.0),
+                  fillColor: Colors.transparent,
+                  focusedBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.all(Radius.circular(2)),
-                    borderSide: BorderSide(
-                        width: 0.5, color: Color(0xffBCBCBC).withOpacity(0.5))),
-                errorBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(4)),
-                  borderSide: BorderSide(width: 0.5, color: Colors.redAccent),
-                ),
-                suffixIcon: IconButton(
-                    icon: Icon(
-                      Icons.close,
-                      size: 15,
-                      color: Theme.of(context).primaryIconTheme.color,
-                    ),
-                    onPressed: () {
-                      searchCtrl.text = "";
-                      print('object');
-                    }),
-              ),
-              onChanged: (value) {
-                print('one');
-                if (value.isNotEmpty && value.length > 2) {
-                  print('three');
-                  search(value);
-                  show = true;
-
-                  autoCompleteSearch(value);
-
-                  print(value);
-                } else {
-                  print('two');
-                  if (predictions.length > 0 && mounted) {
-                    setState(() {
-                      predictions = [];
-                    });
-                  } else {
-                    setState(() {
-                      predictions = [];
-                    });
-                  }
-                }
-              },
-            ),
-            show
-                ? ListView.builder(
-              shrinkWrap: true,
-              itemCount: predictions.length,
-              itemBuilder: (context, index) {
-                return ListTile(
-                  title: Text(
-                    predictions[index].description!,
-                    style:TextStyle(
-                      color: Color(0xff707070),
-                      fontSize: 12,
-                    //  fontFamily: regularFont,
-                    //  fontWeight: getFontWeight('Regular'),
-                    ),
+                    borderSide:
+                    BorderSide(width: 0.5, color: Color(0xffBCBCBC).withOpacity(0.5)),),
+                  disabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(2)),
+                    borderSide:
+                    BorderSide(width: 0.5, color: Color(0xffBCBCBC).withOpacity(0.5)),
                   ),
-                  onTap: () {
-                    debugPrint(predictions[index].placeId);
-                    print('${predictions[index].description}');
-                    show = false;
-                    searchCtrl.text = predictions[index].description!;
+                  enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(2)),
+                    borderSide:
+                    BorderSide(width: 0.5, color: Color(0xffBCBCBC).withOpacity(0.5)),
+                  ),
+                  border: OutlineInputBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(2)),
+                      borderSide: BorderSide(
+                          width: 0.5, color: Color(0xffBCBCBC).withOpacity(0.5))),
+                  errorBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(4)),
+                    borderSide: BorderSide(width: 0.5, color: Colors.redAccent),
+                  ),
+                  suffixIcon: IconButton(
+                      icon: Icon(
+                        Icons.close,
+                        size: 15,
+                        color: Theme.of(context).primaryIconTheme.color,
+                      ),
+                      onPressed: () {
+                        searchCtrl.text = "";
+                        print('object');
+                      }),
+                ),
+                onChanged: (value) {
+                  print('one');
+                  if (value.isNotEmpty && value.length > 2) {
+                    print('three');
+                    search(value);
+                    show = true;
 
-                    callbackPrevious();
-                  },
-                );
-              },
-            )
-                : Container()
-          ],
+                    autoCompleteSearch(value);
+
+                    print(value);
+                  } else {
+                    print('two');
+                    if (predictions.length > 0 && mounted) {
+                      setState(() {
+                        predictions = [];
+                      });
+                    } else {
+                      setState(() {
+                        predictions = [];
+                      });
+                    }
+                  }
+                },
+              ),
+              show
+                  ? ListView.builder(
+                shrinkWrap: true,
+                itemCount: predictions.length,
+                itemBuilder: (context, index) {
+                  return ListTile(
+                    title: Text(
+                      predictions[index].description!,
+                      style:TextStyle(
+                        color: Color(0xff707070),
+                        fontSize: 12,
+                      //  fontFamily: regularFont,
+                      //  fontWeight: getFontWeight('Regular'),
+                      ),
+                    ),
+                    onTap: () {
+                      debugPrint(predictions[index].placeId);
+                      print('${predictions[index].description}');
+                      show = false;
+                      searchCtrl.text = predictions[index].description!;
+
+                      callbackPrevious();
+                    },
+                  );
+                },
+              )
+                  : Container()
+            ],
+          ),
         ),
       ),
     );
